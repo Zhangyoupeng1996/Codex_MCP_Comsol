@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local OS/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# COMSOL/local generated artifacts
+comsol_models/
+knowledge_base/
+
+# COMSOL documentation PDFs are local/proprietary inputs.
+pdf/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.port
