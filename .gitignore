@@ -20,6 +20,8 @@ Thumbs.db
 # COMSOL/local generated artifacts
 comsol_models/
 knowledge_base/
+comsol_outputs/
+.comsol_runtime*/
 
 # COMSOL documentation PDFs are local/proprietary inputs.
 pdf/

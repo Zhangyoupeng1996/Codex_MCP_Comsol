@@ -41,6 +41,60 @@ python -m pip install -e .
 python -m src.server
 ```
 
+## COMSOL Server Runtime Check
+
+For Windows workstations where the default COMSOL profile directory is not
+writable or has stale credentials, start `comsolmphserver` with workspace-local
+runtime folders while keeping COMSOL authentication enabled.
+
+```powershell
+.\scripts\start_comsol_mphserver.ps1 `
+  -ComsolBin "D:\Software\Comsol6.3\COMSOL63\Multiphysics\bin\win64" `
+  -Port 2036 `
+  -User ROG `
+  -SyncDefaultLogin
+```
+
+Notes:
+
+- `-SyncDefaultLogin` copies the local COMSOL `login.properties` hash into the
+  workspace runtime directory so the Python client and server use the same
+  authenticated CHAP login data.
+- The script intentionally uses `-login auto`, not `-login never`.
+- It writes local runtime state under `.comsol_runtime/`; this directory is
+  ignored by Git.
+
+Validate the same Python client path used by the MCP server:
+
+```bash
+python scripts/test_comsol_connection.py --host localhost --port 2036
+```
+
+You should see the COMSOL version and the list of loaded models. A listening
+TCP port alone is not sufficient; this direct `mph.Client(...)` check catches
+authentication problems such as `Wrong_username_or_password`.
+
+## Example: Classic Piezoelectric Cantilever
+
+After the COMSOL server is running and the MCP server dependencies are
+installed, generate a compact piezoelectric cantilever model:
+
+```bash
+python examples/piezoelectric_cantilever_classic.py
+```
+
+The script creates a bonded substrate/piezo layer, electrostatic electrodes,
+a fixed root, a stationary study, and result plot groups for:
+
+- electric potential,
+- electric field norm,
+- equivalent piezoelectric bending shape,
+- true solid displacement norm when COMSOL creates the `PiezoelectricEffect`
+  coupling successfully.
+
+Generated `.mph` files are written to `comsol_outputs/`, which is ignored by
+Git so simulation artifacts do not clutter the MCP source repository.
+
 ## Building PDF Knowledge Base
 
 The `pdf/` and `knowledge_base/` directories are intentionally ignored by Git.
