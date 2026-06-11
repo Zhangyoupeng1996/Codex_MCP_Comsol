@@ -1,0 +1,7 @@
+*.mph
+*.class
+*.log
+*.status
+*.recovery
+results/
+probe_tds_properties.java
