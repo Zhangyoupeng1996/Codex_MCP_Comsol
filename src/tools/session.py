@@ -68,13 +68,17 @@ class SessionManager:
             return {
                 "success": False,
                 "error": "COMSOL session already running. Disconnect first."
-            }
+        }
         try:
             if self._client is None:
-                # Create the JVM-backed client before connecting so failed
-                # remote connects do not leave JPype started but untracked.
-                self._client = mph.Client(host=None)
-            self._client.connect(port=port, host=host)
+                # Use the same direct remote-client path as
+                # scripts/test_comsol_connection.py. Creating a local client
+                # first and then calling connect() can block long enough for
+                # MCP clients to time out even when COMSOL accepts the
+                # connection.
+                self._client = mph.Client(host=host, port=port)
+            else:
+                self._client.connect(port=port, host=host)
             return {
                 "success": True,
                 "version": self._client.version,
