@@ -74,6 +74,10 @@ You should see the COMSOL version and the list of loaded models. A listening
 TCP port alone is not sufficient; this direct `mph.Client(...)` check catches
 authentication problems such as `Wrong_username_or_password`.
 
+For Codex Desktop workspace configuration, migration notes, and safe cleanup of
+stale MCP Python processes, see
+[`docs/CODEX_WORKSPACE.md`](docs/CODEX_WORKSPACE.md).
+
 ## Example: Classic Piezoelectric Cantilever
 
 After the COMSOL server is running and the MCP server dependencies are
